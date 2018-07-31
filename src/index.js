@@ -9,6 +9,14 @@ import createStore from './helpers/createStore';
 import {matchRoutes} from 'react-router-config';
 import Routes from './client/routes';
 import proxy from 'express-http-proxy';
+import { SheetsRegistry } from 'react-jss/lib/jss';
+import {
+  MuiThemeProvider,
+  createMuiTheme,
+  createGenerateClassName,
+} from '@material-ui/core/styles'
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 
 
 const app = express();
@@ -24,6 +32,23 @@ app.use(express.static('public'));
 
 
 app.get("*",(req,res)=>{
+  const sheetsRegistry = new SheetsRegistry();
+
+  // Create a sheetsManager instance.
+  const sheetsManager = new Map();
+
+  // Create a theme instance.
+  const theme = createMuiTheme({
+    palette: {
+      primary: green,
+      accent: red,
+      type: 'light',
+    },
+  });
+
+  // Create a new class name generator.
+  const generateClassName = createGenerateClassName();
+
 	const store = createStore(req);
 	//load data into store
 
@@ -37,7 +62,8 @@ app.get("*",(req,res)=>{
 	//console.log(promises);
 	Promise.all(promises).then(()=>{
 		const context ={};
-		const content = renderer(req,store,context);
+		const content = renderer(req,store,context,theme,sheetsRegistry,generateClassName,sheetsManager);
+
 		if(context.notFound)
 			res.status(404);
 		res.send(content);
