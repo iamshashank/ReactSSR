@@ -12,6 +12,8 @@ import {
   createGenerateClassName,
 } from '@material-ui/core/styles';
 
+import {Helmet} from 'react-helmet';
+
 export default (req,store,context,theme,sheetsRegistry,generateClassName,sheetsManager)=>{
 	const content = renderToString(
 	<JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
@@ -30,10 +32,14 @@ export default (req,store,context,theme,sheetsRegistry,generateClassName,sheetsM
 // <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 // <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	const helmet = Helmet.renderStatic();
+
 	const html = `
 	<html>
 	<head>
-	<title>ReactSSR</title>
+	${helmet.title.toString()}
+	${helmet.meta.toString()}
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<style id="jss-server-side">${css}</style>

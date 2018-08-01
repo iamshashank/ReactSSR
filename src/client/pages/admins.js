@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {fetchAdmins} from '../actions';
 import UserGrid from '../components/user_grid'; 
+import requireAuth from '../components/hocs/requireAuth';
 
 
 class AdminsListPage extends React.Component{
@@ -20,7 +21,7 @@ class AdminsListPage extends React.Component{
 	render(){
 		return (
 			<div>
-			<h3>List Of Users:</h3>
+			<h3>List Of Admins:</h3>
 				<UserGrid users={this.props.admins} />
 			</div>
 			);
@@ -41,6 +42,6 @@ export function loadData(store){
 
 export default {
 	loadData,
-	component: connect(mapStateToProps,{fetchAdmins})(AdminsListPage)
+	component: connect(mapStateToProps,{fetchAdmins})(requireAuth(AdminsListPage))
 
 };

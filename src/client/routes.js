@@ -33,7 +33,8 @@ export default [
 		},
 		{
 			path:'/users',
-			...UsersListPage
+			...UsersListPage,
+			exact:true
 		},
 		{
 			path:'/admins',
